@@ -9,7 +9,7 @@ calling BioFetch CGI are assumed to get details (e.g what databases
 are available, what formats are supported, how many entries can be
 retrieved at one go) from a separate registry.
 
-JUSTIFICATION
+Justification
 -------------
 
 Biological databases are large and there are several common ways of
@@ -27,7 +27,7 @@ The main purpose of this document is to define the parameters to a
 are dependent on implementation. Also, the indexing system used to
 serve the entries, is not specified.
 
-PROGRAM BEHAVIOUR
+Program Behaviour
 -----------------
 
 In addition to GET method the BioFetch should be able to recieve its
@@ -62,13 +62,12 @@ decorated with HTML tags and hypertext links.
 
 A URL for biofetch consists of four sections:
 
-			e.g.
-1. protocol		http://
-2. host			www.ebi.ac.uk
-3. path to program	/cgi-bin/dbfetch
-4. query string		?style=raw;format=embl;db=embl;id=J00231
+1. Protocol:        `http://`
+2. Host and port:   `www.ebi.ac.uk:80`
+3. Path to program: `/cgi-bin/dbfetch`
+4. Query string:    `?style=raw;format=embl;db=embl;id=J00231`
 
-QUERY STRING
+Query String
 ------------
 
 The query string options are separated from the base URL (protocol +
@@ -79,45 +78,49 @@ recommended to leave the ID to be the last item.
 
 Input for options should be case insensitive.
 
-option: db
+#### Option: db
 
-  Option  : db
-  Descr   : database name
-  Type    : required
-  Usage   : db=embl | db=genbank | db=swall
-  Arg     : string 
+| Option | db                                      |
+|--------|-----------------------------------------|
+| Descr  | database name                           |
+| Type   | required                                |
+| Usage  | `db=embl` or `db=genbank` or `db=swall` |
+| Arg    | string                                  |
 
-option: style
+#### Option: style
 
-  Option  : style
-  Descr   : +/- HTML tags
-  Type    : required
-  Usage   : style=raw | db=html
-  Arg     : enum (raw|html)
+| Option | style
+|--------|-----------------------------------|
+| Descr  | +/- HTML tags                     |
+| Type   | required                          |
+| Usage  | `style=raw` or `style=html`       |
+| Arg    | enum (raw or html)                |
 
-In non-interactive context, always give "style=raw". This uses
+In non-interactive context, always give `style=raw`. This uses
 "Content-Type: text/plain". If other content types are needed (XML),
 this part of the specifications can be extended to accommodate them.
 
-option: format
+#### Option: format
 
-  Option  : format
-  Descr   : format of the database entries returned
-  Type    : optional
-  Usage   : format=embl | format=fasta
-  Arg     : enum
+| Option | format                                   |
+|--------|------------------------------------------|
+| Descr  | format of the database entries returned  |
+| Type   | optional                                 |
+| Usage  | `format=embl` or `format=fasta`          |
+| Arg    | enum                                     |
 
-Format defaults to the distribution format of the database (embl for
+Format defaults to the distribution format of the database (`embl` for
 EMBL database). If some other supported format is needed this option
-is needed (E.g. formats for EMBL: fasta, bsml, agave).
+is needed (E.g. formats for EMBL: `fasta`, `bsml`, `agave`).
 
-option: id
+#### Option: id
 
-  Option  : id
-  Descr   : unique database identifier(s)
-  Type    : required
-  Usage   : db=J00231 | id=J00231+BUM
-  Arg     : string 
+| Option | id                                |
+|--------|-----------------------------------|
+| Descr  | unique database identifier(s)     |
+| Type   | required                          |
+| Usage  | `db=J00231` or `id=J00231+BUM`    |
+| Arg    | string                            |
 
 The ID option should be able to process all UIDS in a database. It
 should not be necessary to know if the UID is an ID, accession number
@@ -127,37 +130,35 @@ The number of entry UIDs allowed is implementation specific. If the
 limit is exceeded, the the program reports an error. The UIDs should
 be separated by spaces (use '+' in a GET method string).
 
-ERROR MESSAGES
+Error Messages
 --------------
 
 The following standardized one line messages should be printed out in
 case of an error.
 
-ERROR 1 Unknown database [$db].
-ERROR 2 Unknown style [$style].
-ERROR 3 Format [$format] not known for database [$db].
-ERROR 4 ID [$id] not found in database [$db].
-ERROR 5 Too many IDs [$count]. Max [$MAXIDS] allowed.
+* `ERROR 1 Unknown database [$db].`
+* `ERROR 2 Unknown style [$style].`
+* `ERROR 3 Format [$format] not known for database [$db].`
+* `ERROR 4 ID [$id] not found in database [$db].`
+* `ERROR 5 Too many IDs [$count]. Max [$MAXIDS] allowed.`
 
-IMPLEMENTATIONS
+Implementations
 ---------------
 
-The first implementation of the BioFetch server is dbfetch, a perl
-CGI program. It is distributed as part of the bioperl package in the
-directory 'scripts/DB'
-<http://cvs.bioperl.org/cgi-bin/viewcvs/viewcvs.cgi/bioperl-live/\
-scripts/DB/dbfetch?cvsroot=bioperl>. 
+The first implementation of the BioFetch server is 'dbfetch', a perl
+CGI program. It is distributed as part of the Bioperl package in the
+directory 'scripts/DB':
 
-The URL to dbfetch running at EBI is:
+https://github.com/bioperl/bioperl-live/blob/master/examples/db/dbfetch
 
-    http://www.ebi.ac.uk/cgi-bin/dbfetch
+The URL to dbfetch running at EMBL-EBI is:
 
-This server is used in bioperl by specific Bio::DB::BioFetchmodules as
-well as more generic Bio::DB::EMBL, Bio::DB::Swissprot and
+http://www.ebi.ac.uk/Tools/dbfetch/dbfetch
+
+The EMBL-EBI service is used in Bioperl by specific Bio::DB::BioFetch 
+modules as well as more generic Bio::DB::EMBL, Bio::DB::Swissprot and
 Bio::DB::RefSeq modules. 
 
-An other implementation in progress is
-being written by Toshiaki Katayma <k@bioruby.org> using bioruby. The
-URL is:
+An BioRuby biofetch server implementation can be found at:
 
-    http://bioruby.org/cgi-bin/biofetch.rb
+https://github.com/bioruby/bioruby/blob/master/sample/biofetch.rb
