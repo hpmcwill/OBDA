@@ -1,7 +1,6 @@
 BioFetch - Light weight universal translator
 ============================================
 
-
 This is a document for a standard Web interface to retrieve entries
 from biological databases using unique identifiers.
 
@@ -11,6 +10,7 @@ are available, what formats are supported, how many entries can be
 retrieved at one go) from a separate registry.
 
 JUSTIFICATION
+-------------
 
 Biological databases are large and there are several common ways of
 indexing (SRS, EMBL indexes, RDB, Berkeley DB) them for random
@@ -27,8 +27,8 @@ The main purpose of this document is to define the parameters to a
 are dependent on implementation. Also, the indexing system used to
 serve the entries, is not specified.
 
-
 PROGRAM BEHAVIOUR
+-----------------
 
 In addition to GET method the BioFetch should be able to recieve its
 parameters from POST method, too.
@@ -53,8 +53,8 @@ EMBLNEW).
 The next section of the document deals with the URL and parameter
 structure for the BioFetch program.
 
-
 URL
+---
 
 This interface does not specify what happens when biofetch is called
 in interactive context. The implementations can return the entries
@@ -68,8 +68,8 @@ A URL for biofetch consists of four sections:
 3. path to program	/cgi-bin/dbfetch
 4. query string		?style=raw;format=embl;db=embl;id=J00231
 
-
 QUERY STRING
+------------
 
 The query string options are separated from the base URL (protocol +
 host + path) by a question mark (?) and from each other by a semicolon
@@ -79,7 +79,6 @@ recommended to leave the ID to be the last item.
 
 Input for options should be case insensitive.
 
-
 option: db
 
   Option  : db
@@ -87,7 +86,6 @@ option: db
   Type    : required
   Usage   : db=embl | db=genbank | db=swall
   Arg     : string 
-    
 
 option: style
 
@@ -99,8 +97,7 @@ option: style
 
 In non-interactive context, always give "style=raw". This uses
 "Content-Type: text/plain". If other content types are needed (XML),
-this part of the spesifications can be extended to accommodate them.
-
+this part of the specifications can be extended to accommodate them.
 
 option: format
 
@@ -113,7 +110,6 @@ option: format
 Format defaults to the distribution format of the database (embl for
 EMBL database). If some other supported format is needed this option
 is needed (E.g. formats for EMBL: fasta, bsml, agave).
-
 
 option: id
 
@@ -131,8 +127,8 @@ The number of entry UIDs allowed is implementation specific. If the
 limit is exceeded, the the program reports an error. The UIDs should
 be separated by spaces (use '+' in a GET method string).
 
-
 ERROR MESSAGES
+--------------
 
 The following standardized one line messages should be printed out in
 case of an error.
@@ -143,8 +139,8 @@ ERROR 3 Format [$format] not known for database [$db].
 ERROR 4 ID [$id] not found in database [$db].
 ERROR 5 Too many IDs [$count]. Max [$MAXIDS] allowed.
 
-
 IMPLEMENTATIONS
+---------------
 
 The first implementation of the BioFetch server is dbfetch, a perl
 CGI program. It is distributed as part of the bioperl package in the
@@ -156,7 +152,6 @@ The URL to dbfetch running at EBI is:
 
     http://www.ebi.ac.uk/cgi-bin/dbfetch
 
-
 This server is used in bioperl by specific Bio::DB::BioFetchmodules as
 well as more generic Bio::DB::EMBL, Bio::DB::Swissprot and
 Bio::DB::RefSeq modules. 
@@ -166,4 +161,3 @@ being written by Toshiaki Katayma <k@bioruby.org> using bioruby. The
 URL is:
 
     http://bioruby.org/cgi-bin/biofetch.rb
-
