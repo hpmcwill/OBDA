@@ -1,5 +1,3 @@
-# $Id: biofetch.txt,v 1.2 2002/02/25 09:32:53 heikki Exp $
-
 BioFetch - Light weight universal translator
 ============================================
 
